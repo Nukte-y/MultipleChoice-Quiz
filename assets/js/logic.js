@@ -4,13 +4,14 @@ var questionTitle=document.getElementById("question-title");
 var question=document.getElementById("questions");
 var choices=document.getElementById("choices"); 
 var timeEl = document.querySelector(".timer");
-var secondsLeft = 30;
+var secondsLeft = 60;
 var index=0;
 var correct=0;  
-var wrong=0;
-var correctSound=(document.createElement("AUDIO").setAttribute("src","./assets/sfx/correct.wav"));   
-var incorrectSound=document.createElement("AUDIO");
-
+var incorrect=0;
+var correctSound=(document.createElement("audio").setAttribute("src","./assets/sfx/correct.wav"));   
+var incorrectSound=document.createElement("audio").setAttribute("src","./assets/sfx/incorrect.wav");
+var finalScore=document.getElementById("final-score");
+var feedback=document.getElementById("feedback");
 
 
 function setTime() {                
@@ -32,19 +33,22 @@ function cleaner(element){           //clean the screen
 
 
 function block(element){             //make elements visible
-    element.style.display="block";   
+    element.style.display="block";
 };
 
 
-function Button(event){  
-
-    var Select=event.target.id;     //get id of the clicked button    
+function buttonClick(event){  
+    var Select=event.target.id;      //get id of the clicked button
+    block(feedback);    
     if(Select===Questions[index].correctAnswer){
         correct++;
         // correctSound.play();
+        feedback.textContent="CORRECT";
     }
     else{
-
+        incorrect++;
+        // incorrectSound.play();
+        feedback.textContent="WRONG";
     };
     
     index++;
@@ -53,6 +57,7 @@ function Button(event){
     if(index===4){                  // if it is last question
         cleaner(question);                        
         block(endScreen);
+        finalScore.textContent=correct;
         return;
     }
     
@@ -60,18 +65,17 @@ function Button(event){
 };
 
 
-function QuestionRender(){         //display questions on the screen 
-
+function QuestionRender(){           //display questions on the screen 
+    
     block(questions);                //make questions visible(they are hidden in the html)
-    questionTitle.textContent=Questions[index].Q;
-        
+    questionTitle.textContent=Questions[index].Q;   
     var answers=Questions[index].Answers;   //takes answers object, from questions array 
-    for (const key in answers) {        //loop inside the object
-        var button=choices.appendChild(document.createElement("button"));   //create button under question div, for each object element    
+    for (const key in answers) {            //loop inside the object
+        var button=choices.appendChild(document.createElement("button"));   //create buttons under choices, for each object keys    
         button.textContent=answers[key];
-        button.id = key;
-        button.addEventListener("click",Button);
-    }        
+        button.id = key;                                                    //define id to track buttons when user click
+        button.addEventListener("click",buttonClick);                            
+    }
 } 
 
 document.getElementById("start").addEventListener("click",function(event){          //start click
@@ -81,3 +85,8 @@ document.getElementById("start").addEventListener("click",function(event){      
     QuestionRender();
 
 });
+
+document.getElementById("submit").addEventListener("click",function (event) {       // takes initials when click on submit button
+var initials=document.getElementById("initials").value;
+  
+})
