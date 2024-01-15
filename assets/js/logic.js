@@ -109,7 +109,7 @@ document.getElementById("submit").addEventListener("click",function (event) {   
     var userName=initials.value.trim();
     localStorage.setItem("userName", userName)                                      //putting input values into localstorage
     localStorage.setItem("score", correct)
-    window.location.href="./highscores.html";
+    window.location.href="./highscores.html";                                       //change to highscore html file
 
 })
 

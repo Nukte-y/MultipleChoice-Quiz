@@ -12,3 +12,10 @@ var highScores=document.getElementById("highscores");
 var highScoresEl=document.createElement("li");
 highScores.appendChild(highScoresEl).textContent=(`${n} - ${s}`);
 
+
+var clear=document.getElementById("clear");             //clearing screen click on the button;
+clear.addEventListener("click",function(event){
+    highScoresEl.textContent="";
+});
+
+
