@@ -1,3 +1,4 @@
+
 var startScreen=document.getElementById("start-screen");
 var endScreen=document.getElementById("end-screen");
 var questionTitle=document.getElementById("question-title");
@@ -14,6 +15,7 @@ var incorrectSound=document.createElement("audio")
 incorrectSound.setAttribute("src","./assets/sfx/incorrect.wav");
 var finalScore=document.getElementById("final-score");
 var feedback=document.getElementById("feedback");
+var initials=document.getElementById("initials");
 
 document.body.appendChild(correctSound);
 document.body.appendChild(incorrectSound);
@@ -34,11 +36,11 @@ function setTime() {
     }, 500)
 };
 
-function feedbackTimer(){
+function feedbackTimer(){                       //after 0.8sec will clear feedback(correct or wrong)
     var ftimer = setInterval(function() {
             cleaner(feedback);
             clearInterval(ftimer);
-        }, 800)
+        }, 800)                                
     
 }
 
@@ -50,7 +52,6 @@ function cleaner(element){           //clean the screen
 function block(element){             //make elements visible
     element.style.display="block";
 };
-
 
 function buttonClick(event){  
     var Select=event.target.id;      //get id of the clicked button
@@ -70,7 +71,7 @@ function buttonClick(event){
     index++;
     choices=document.getElementById("choices");
     cleaner(choices);              // to clean previous answer buttons  
-    feedbackTimer();
+    feedbackTimer();                
     if(index===4){                  // if it is last question
         cleaner(question);                        
         block(endScreen);
@@ -78,11 +79,11 @@ function buttonClick(event){
         secondsLeft=0;
         return;
     }
-    QuestionRender();
+    questionRender();
 };
 
 
-function QuestionRender(){           //display questions on the screen 
+function questionRender(){           //display questions on the screen 
     
 block(questions);                //make questions visible(they are hidden in the html)
 questionTitle.textContent=Questions[index].Q;   
@@ -96,16 +97,19 @@ var answers=Questions[index].Answers;   //takes answers object, from questions a
     }
 } 
 
-
 document.getElementById("start").addEventListener("click",function(event){          //start click
     event.preventDefault();    
     cleaner(startScreen);
     setTime();
-    QuestionRender();
+    questionRender();
 });
 
 document.getElementById("submit").addEventListener("click",function (event) {       // takes initials when click on submit button
-// var initials=document.getElementById("initials").value;
-// scores(initials,correct);
-window.location.href="./highscores.html"
+    event.preventDefault();
+    var userName=initials.value.trim();
+    localStorage.setItem("userName", userName)                                      //putting input values into localstorage
+    localStorage.setItem("score", correct)
+    window.location.href="./highscores.html";
+
 })
+
