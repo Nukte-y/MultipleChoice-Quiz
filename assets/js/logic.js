@@ -8,24 +8,39 @@ var secondsLeft = 60;
 var index=0;
 var correct=0;  
 var incorrect=0;
-var correctSound=(document.createElement("audio").setAttribute("src","./assets/sfx/correct.wav"));   
-var incorrectSound=document.createElement("audio").setAttribute("src","./assets/sfx/incorrect.wav");
+var correctSound=document.createElement("audio")
+correctSound.setAttribute("src","./assets/sfx/correct.wav");   
+var incorrectSound=document.createElement("audio")
+incorrectSound.setAttribute("src","./assets/sfx/incorrect.wav");
 var finalScore=document.getElementById("final-score");
 var feedback=document.getElementById("feedback");
 
+document.body.appendChild(correctSound);
+document.body.appendChild(incorrectSound);
 
 function setTime() {                
     var timerInterval = setInterval(function() {
         secondsLeft--;
         timeEl.textContent=secondsLeft;
-  
-        if(secondsLeft === 0) {
+        if(secondsLeft <= 0) {
             // Stops execution of action at set interval
             clearInterval(timerInterval);
+            timeEl.textContent=0;
+            cleaner(question);
+            block(endScreen);
+
         }
-    }, 1000)
+
+    }, 500)
 };
 
+function feedbackTimer(){
+    var ftimer = setInterval(function() {
+            cleaner(feedback);
+            clearInterval(ftimer);
+        }, 800)
+    
+}
 
 function cleaner(element){           //clean the screen
     element.textContent="";
@@ -42,34 +57,37 @@ function buttonClick(event){
     block(feedback);    
     if(Select===Questions[index].correctAnswer){
         correct++;
-        // correctSound.play();
+        correctSound.play();
         feedback.textContent="CORRECT";
     }
     else{
         incorrect++;
-        // incorrectSound.play();
+        incorrectSound.play();
         feedback.textContent="WRONG";
+        secondsLeft=secondsLeft-5;
     };
     
     index++;
     choices=document.getElementById("choices");
-    cleaner(choices);               // to clean previous answer buttons  
+    cleaner(choices);              // to clean previous answer buttons  
+    feedbackTimer();
     if(index===4){                  // if it is last question
         cleaner(question);                        
         block(endScreen);
         finalScore.textContent=correct;
+        secondsLeft=0;
         return;
     }
-    
     QuestionRender();
 };
 
 
 function QuestionRender(){           //display questions on the screen 
     
-    block(questions);                //make questions visible(they are hidden in the html)
-    questionTitle.textContent=Questions[index].Q;   
-    var answers=Questions[index].Answers;   //takes answers object, from questions array 
+block(questions);                //make questions visible(they are hidden in the html)
+questionTitle.textContent=Questions[index].Q;   
+var answers=Questions[index].Answers;   //takes answers object, from questions array 
+    
     for (const key in answers) {            //loop inside the object
         var button=choices.appendChild(document.createElement("button"));   //create buttons under choices, for each object keys    
         button.textContent=answers[key];
@@ -78,15 +96,16 @@ function QuestionRender(){           //display questions on the screen
     }
 } 
 
+
 document.getElementById("start").addEventListener("click",function(event){          //start click
     event.preventDefault();    
     cleaner(startScreen);
     setTime();
     QuestionRender();
-
 });
 
 document.getElementById("submit").addEventListener("click",function (event) {       // takes initials when click on submit button
-var initials=document.getElementById("initials").value;
-  
+// var initials=document.getElementById("initials").value;
+// scores(initials,correct);
+window.location.href="./highscores.html"
 })
