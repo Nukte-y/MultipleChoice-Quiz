@@ -19,10 +19,11 @@ var n = localStorage.getItem("userName");                               //get sc
 var s = localStorage.getItem("score");
 addScore(n,s);                                                          //call the function
 
-var highScores=document.getElementById("highscores");                  
-var highScoresEl=document.createElement("li");
-highScores.appendChild(highScoresEl).textContent=(`${n} - ${s}`);       // printing highscore on the page
-
+var highScores=document.getElementById("highscores");                  // printing highscore on the page
+for(i=0;i<scores.length;i++){
+var highScoresEl=highScores.appendChild(document.createElement("li"));  
+highScoresEl.textContent=(`${scores[i].name} - ${scores[i].score}`);    //printing scores stored in LocalStore array                            
+}
 
 var clear=document.getElementById("clear");                             //clearing highscore when click on button;
 clear.addEventListener("click",function(event){
