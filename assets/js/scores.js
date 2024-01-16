@@ -1,21 +1,35 @@
 
-var scores=[];
-function addScore(name,score){
-    scores.push({ name :name, score: score});
-}
+// var scores=[]; 
+//each time page refresh(js refresh as well) I lost my array elements stored before, 
+// so I will store them in localstorage and get them from there
 
-let n = localStorage.getItem("userName");
-let s = localStorage.getItem("score");
-addScore(n,s)
+var storedString=localStorage.getItem("storedScoresArray");
+var scores=[];                                                         //array which will store scores
+if(storedString!==null){                                               //because got error when array is empthy at first and could not parse it
+    var scores=JSON.parse(storedString);
+};
 
-var highScores=document.getElementById("highscores");
+function addScore(name,score){                                          // function to add new scores to scores array and keep it in localstorage
+    scores.push({ name :name, score: score});                              
+    let arraytoString=JSON.stringify(scores);                           //converting array to string to store it in local storage    
+    localStorage.setItem("storedScoresArray",arraytoString);            //send array(as string) with key "storedScoresArray" key to my localstorage
+};
+
+var n = localStorage.getItem("userName");                               //get scores which I store in localstorage(in logic.js) at the end of quiz
+var s = localStorage.getItem("score");
+addScore(n,s);                                                          //call the function
+
+var highScores=document.getElementById("highscores");                  
 var highScoresEl=document.createElement("li");
-highScores.appendChild(highScoresEl).textContent=(`${n} - ${s}`);
+highScores.appendChild(highScoresEl).textContent=(`${n} - ${s}`);       // printing highscore on the page
 
 
-var clear=document.getElementById("clear");             //clearing screen click on the button;
+var clear=document.getElementById("clear");                             //clearing highscore when click on button;
 clear.addEventListener("click",function(event){
     highScoresEl.textContent="";
 });
+
+
+
 
 

@@ -20,7 +20,7 @@ var initials=document.getElementById("initials");
 document.body.appendChild(correctSound);
 document.body.appendChild(incorrectSound);
 
-function setTime() {                
+function setTime() {                      
     var timerInterval = setInterval(function() {
         secondsLeft--;
         timeEl.textContent=secondsLeft;
@@ -36,7 +36,7 @@ function setTime() {
     }, 500)
 };
 
-function feedbackTimer(){                       //after 0.8sec will clear feedback(correct or wrong)
+function feedbackTimer(){             //after 0.8sec will clear feedback(correct or wrong)
     var ftimer = setInterval(function() {
             cleaner(feedback);
             clearInterval(ftimer);
