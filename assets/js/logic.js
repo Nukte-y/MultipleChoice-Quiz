@@ -28,6 +28,7 @@ function setTime() {
             // Stops execution of action at set interval
             clearInterval(timerInterval);
             timeEl.textContent=0;
+            finalScore.textContent=correct;
             cleaner(question);
             block(endScreen);
 
@@ -83,11 +84,11 @@ function buttonClick(event){
 };
 
 
-function questionRender(){           //display questions on the screen 
+function questionRender(){                  //display questions on the screen 
     
-block(questions);                //make questions visible(they are hidden in the html)
+block(questions);                           //make questions visible(they are hidden in the html)
 questionTitle.textContent=Questions[index].Q;   
-var answers=Questions[index].Answers;   //takes answers object, from questions array 
+var answers=Questions[index].Answers;       //takes answers object, from questions array 
     
     for (const key in answers) {            //loop inside the object
         var button=choices.appendChild(document.createElement("button"));   //create buttons under choices, for each object keys    

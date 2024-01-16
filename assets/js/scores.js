@@ -15,13 +15,20 @@ function addScore(name,score){                                          // funct
     scores.sort((a,b) => (b.score-a.score));                            // sorts scores ascending  
     let arraytoString=JSON.stringify(scores);                           //converting array to string to store it in local storage    
     localStorage.setItem("storedScoresArray",arraytoString);            //send array(as string) with key "storedScoresArray" key to my localstorage
+    localStorage.removeItem("userName");
+    localStorage.removeItem("score");                                   // prevent duplicate(re-print) array elements when refresh the page 
 };
 
 var n = localStorage.getItem("userName");                               //get scores which I store in localstorage(in logic.js) at the end of quiz
 var s = localStorage.getItem("score");
-addScore(n,s);                                                          //call the function
 
-var highScores=document.getElementById("highscores");                  // printing highscore on the page
+if(n===""|| n===null){                                                  //prevent push into scores array if there is not any username(initials)                                              
+}
+else{
+addScore(n,s);                                                          //call the function
+};
+
+var highScores=document.getElementById("highscores");                   // printing highscore on the page
 for(i=0;i<scores.length;i++){
 var highScoresEl=highScores.appendChild(document.createElement("li"));  
 highScoresEl.textContent=(`${scores[i].name} - ${scores[i].score}`);    //printing scores stored in LocalStore array                            
@@ -29,7 +36,7 @@ highScoresEl.textContent=(`${scores[i].name} - ${scores[i].score}`);    //printi
 
 var clear=document.getElementById("clear");                             //clearing highscore when click on button;
 clear.addEventListener("click",function(event){
-    highScoresEl.textContent="";
+    highScores.innerText="";
 });
 
 
