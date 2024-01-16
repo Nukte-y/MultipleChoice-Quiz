@@ -9,8 +9,10 @@ if(storedString!==null){                                               //because
     var scores=JSON.parse(storedString);
 };
 
+
 function addScore(name,score){                                          // function to add new scores to scores array and keep it in localstorage
-    scores.push({ name :name, score: score});                              
+    scores.push({ name :name, score: score});                           
+    scores.sort((a,b) => (b.score-a.score));                            // sorts scores ascending  
     let arraytoString=JSON.stringify(scores);                           //converting array to string to store it in local storage    
     localStorage.setItem("storedScoresArray",arraytoString);            //send array(as string) with key "storedScoresArray" key to my localstorage
 };
